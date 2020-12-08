@@ -1,0 +1,158 @@
+		$kanjiSelect = $mysqli->query("SELECT kanji_view FROM kanji");
+		$kanjiArr = [];
+	while ($kanjiItem = $kanjiSelect->fetch_array()) {
+		array_push($kanjiArr, $kanjiItem[0]);
+	}
+	$taskKanji = $kanjiArr[rand(0, $kanjiAmount - 1)];
+	$quizResults = $mysqli->query("SELECT kanji_search FROM kanji WHERE kanji_view = '$taskKanji'")->fetch_array()[0];	
+			
+			<div class="inner__quiz">
+				<div class="inner__subtitle-block">
+					<h2 class="inner__subtitle">Проверка знаний!&#9786; <br>Назови чтения и значения данного иероглифа</h2>
+				</div>
+				<div class="quiz__content">
+					<div class="quiz__task quiz__item">
+						<div class="task__kanji-block">
+							<span class="task__kanji"><?=$taskKanji?></span>
+						</div>
+						<div class="task__answer-field">
+							<div class="answer-field__item-block">
+								<p class="answer-field__p" for="answer-field__item1">Оны:</p>
+								<input class="answer-field__item" type="text" id="answer-field__item-ons" placeholder="Введите онные чтения">
+							</div>
+							<div class="answer-field__item-block">
+								<p class="answer-field__p" for="answer-field__item2">Куны:</p>
+								<input class="answer-field__item" type="text" id="answer-field__item-kuns" placeholder="Введите кунные чтения">
+							</div>
+							<div class="answer-field__item-block">
+								<p class="answer-field__p" for="answer-field__item3">Значения:</p>
+								<input class="answer-field__item" type="text" id="answer-field__item-meanings" placeholder="Введите значения">
+							</div>
+						</div>
+					</div>
+					<div class="quiz__buttons quiz__item">
+						<button class="buttons__item buttons__show-results">Показать ответ</button>
+						<button class="buttons__item buttons__check-answers">Проверить</button>
+					</div>
+					<div class="quiz__results quiz__item">
+						<div class="result__item-block results__title-block">
+							<h2 class="results__title">Ответ:</h2>
+						</div>
+						<div class="results__item-block">
+							<p class="results__item results__ons"></p>
+						</div>
+						<div class="results__item-block">
+							<p class="results__item results__kuns"></p>
+						</div>
+						<div class="results__item-block">
+							<p class="results__item results__meanings"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script>
+				let quizResults = '<?=$quizResults?>';
+			</script>
+			
+.quiz__item {
+	padding-top: 10px;
+}
+
+.quiz__item:first-child {
+	padding-top: 0
+}
+
+.quiz__task {
+	display: flex;
+	justify-content: space-between;
+}
+
+.task__kanji-block {
+	width: 170px;
+	height: 170px;
+/*	border: 2px solid white;*/
+	text-align: center;
+}
+
+.task__kanji {
+	font-size: 120px;
+}
+
+.task__answer-field {
+	width: 75%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.answer-field__p {
+	width: 20%;
+	font-size: 20px;
+}
+
+.answer-field__item-block {
+	display: flex;
+	align-items: center;
+}
+
+.answer-field__item {
+	width: 80%;
+	height: 50px;
+	background: none;
+	outline: none;
+	border: 2px solid white;
+	font-size: 26px;
+	color: white;
+	padding: 0 10px;
+	font-family: 'Montserrat';
+	transition: border .4s ease-in-out;
+}
+
+.answer-field__item:focus {
+	border-color: #ac3393;
+}
+
+.answer-field__item::placeholder {
+	color: white;
+	opacity: .6;
+	font-size: 22px;
+}
+
+.quiz__buttons {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.buttons__item {
+	background: none;
+	width: 200px;
+	height: 40px;
+	cursor: pointer;
+	color: white;
+	outline: none;
+	border: 2px solid white;
+	font-size: 20px;
+	font-family: 'Montserrat';
+	transition: background .5s linear;
+}
+
+.buttons__item:first-child {
+	margin-right: 15px;
+}
+
+.buttons__item:hover {
+	background-color: white;
+	color: black;
+}
+
+.quiz__results {
+	display: none;
+}
+
+.results__title-block {
+	margin-bottom: 8px;
+}
+
+.results__item {
+	word-spacing: 4px;
+}
